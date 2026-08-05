@@ -1,19 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-forest-green: #174b2c;
-  --color-deep-navy: #1e477a;
-  --color-medium-blue: #3268a0;
-  --color-golden-orange: #f5a623;
-  --color-warm-yellow: #f8c63d;
-  --color-off-white: #fafaf7;
-  --color-dark-text: #1c2733;
+  --color-forest-green: #0e5e4f;
+  --color-deep-navy: #0f172a;
+  --color-medium-blue: #0e5e4f;
+  --color-golden-orange: #d4af37;
+  --color-warm-yellow: #d4af37;
+  --color-off-white: #faf8f3;
+  --color-dark-text: #222222;
 }
 
 :root {
-  font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
-  color: #1c2733;
-  background: #fafaf7;
+  font-family: "Poppins", Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #222;
+  background: #faf8f3;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -27,6 +28,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: clip;
+  background: #faf8f3;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img,
@@ -59,7 +64,7 @@ select {
 }
 
 .font-display {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .site-container {
@@ -68,26 +73,35 @@ select {
 }
 
 .section-pad {
-  padding-block: 5.5rem;
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
 }
 
 .hero-section {
-  background-image: url("https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=2000&q=88");
+  background-image: url("/assets/gallery/malaysia-trip/malaysia-03-city.jpeg");
   background-position: center;
   background-size: cover;
 }
 
+.glass-nav { border-bottom: 1px solid rgb(226 232 240 / .9); background: rgb(255 255 255 / .80); backdrop-filter: blur(12px); }
+.hero-overlay { background: linear-gradient(90deg, rgb(15 23 42 / .92), rgb(15 23 42 / .62) 55%, rgb(15 23 42 / .2)); }
+.card-lift { transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease; }
+.card-lift:hover { transform: translateY(-.25rem); border-color: #fed7aa; box-shadow: 0 20px 30px -12px rgb(15 23 42 / .18); }
+
 .nav-link {
-  padding-block: 1.8rem;
+  position: relative;
+  padding-block: 1.55rem;
   font-size: 0.875rem;
   font-weight: 650;
-  color: rgb(28 39 51 / 0.78);
+  color: rgb(30 41 59 / .78);
   transition: color 180ms ease;
 }
 
 .nav-link:hover {
-  color: #174b2c;
+  color: #0e5e4f;
 }
+
+.nav-link.active { color: #0e5e4f; }
+.nav-link.active::after { content: ""; position: absolute; right: 0; bottom: .9rem; left: 0; height: 3px; border-radius: 999px; background: #d4af37; }
 
 .button-primary,
 .button-secondary,
@@ -106,7 +120,7 @@ select {
 }
 
 .button-primary {
-  background: #174b2c;
+  background: #0e5e4f;
   color: white;
 }
 
@@ -116,28 +130,29 @@ select {
 }
 
 .button-primary:hover {
-  background: #103520;
+  background: #0a3d33;
 }
 
 .button-secondary {
-  border: 1px solid rgb(23 75 44 / 0.25);
+  border: 1px solid rgb(14 94 79 / .3);
   background: white;
-  color: #174b2c;
+  color: #0e5e4f;
 }
 
 .button-secondary:hover {
-  border-color: #174b2c;
-  background: #174b2c;
+  border-color: #0e5e4f;
+  background: #0e5e4f;
   color: white;
 }
 
 .button-accent {
-  background: #f5a623;
-  color: #1e477a;
+  background: #0e5e4f;
+  color: white;
 }
 
 .button-accent:hover {
-  background: #f8c63d;
+  background: #0a3d33;
+  color: #fff;
 }
 
 .button-outline-light {
@@ -153,16 +168,20 @@ select {
 }
 
 .card {
-  border: 1px solid rgb(28 39 51 / 0.07);
-  border-radius: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
   background: white;
-  box-shadow: 0 8px 28px rgb(30 71 122 / 0.06);
+  box-shadow: 0 8px 24px rgb(15 23 42 / .06);
   transition: transform 250ms ease, box-shadow 250ms ease;
 }
 
+.glass-card { border: 1px solid rgb(255 255 255 / .36); background: rgb(255 255 255 / .88); box-shadow: 0 24px 60px rgb(8 31 19 / .25); backdrop-filter: blur(20px); }
+.shimmer { background: linear-gradient(90deg, #eeeadd 25%, #f8f5ed 38%, #eeeadd 63%); background-size: 400% 100%; animation: shimmer 1.4s infinite; }
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 42px rgb(30 71 122 / 0.12);
+  box-shadow: 0 20px 30px -12px rgb(15 23 42 / .16);
 }
 
 .form-field {
@@ -170,8 +189,9 @@ select {
   min-width: 0;
   flex-direction: column;
   gap: 0.45rem;
-  border-radius: 0.9rem;
-  background: #fafaf7;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  background: white;
   padding: 0.75rem 0.9rem;
 }
 
@@ -183,7 +203,7 @@ select {
   font-weight: 750;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #3268a0;
+  color: #0e5e4f;
 }
 
 .form-field input,
@@ -193,7 +213,7 @@ select {
   background: transparent;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1c2733;
+  color: #1e293b;
   outline: none;
 }
 
@@ -203,28 +223,28 @@ select {
   gap: 0.45rem;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #1e477a;
+  color: #334155;
 }
 
 .input-label input,
 .input-label select,
 .input-label textarea {
   width: 100%;
-  border: 1px solid rgb(28 39 51 / 0.12);
+  border: 1px solid #e2e8f0;
   border-radius: 0.75rem;
-  background: #fafaf7;
+  background: white;
   padding: 0.75rem 0.85rem;
   font: inherit;
   font-weight: 500;
-  color: #1c2733;
+  color: #1e293b;
   outline: none;
 }
 
 .input-label input:focus,
 .input-label select:focus,
 .input-label textarea:focus {
-  border-color: #3268a0;
-  box-shadow: 0 0 0 3px rgb(50 104 160 / 0.1);
+  border-color: #0e5e4f;
+  box-shadow: 0 0 0 3px rgb(14 94 79 / .12);
 }
 
 .footer-title {
@@ -233,6 +253,8 @@ select {
   font-size: 1.1rem;
   font-weight: 700;
 }
+
+.section-heading-accent::after { content: ""; display: block; width: 3.25rem; height: 3px; margin-top: 1.15rem; background: #d4af37; }
 
 .footer-links {
   display: flex;

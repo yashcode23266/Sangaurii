@@ -75,9 +75,9 @@ export const destinations = [
 ];
 
 export const testimonials = [
-  { name: "Anjali & Sameer Kulkarni", trip: "Kashmir Family Holiday", text: "Every detail was handled with care. Our parents were comfortable, the children stayed excited, and we came home with wonderful memories.", rating: 5 },
-  { name: "Meera Deshpande", trip: "Rajasthan Group Tour", text: "The itinerary felt relaxed yet complete. Hotels, local guides and daily coordination were thoughtful throughout the journey.", rating: 5 },
-  { name: "Rohan Patil", trip: "Customized Kerala Trip", text: "The team listened to exactly what we wanted and created a holiday that felt truly ours. Support was always just a call away.", rating: 5 },
+  { name: "Anjali & Sameer Kulkarni", trip: "Malaysia Group Holiday", text: "Every detail was handled with care. Our parents were comfortable, the children stayed excited, and we came home with wonderful memories.", rating: 5, image: "/assets/gallery/malaysia-trip/malaysia-01-palace-gate.jpeg" },
+  { name: "Meera Deshpande", trip: "Temple Tour", text: "The itinerary felt relaxed yet complete. Hotels, local guides and daily coordination were thoughtful throughout the journey.", rating: 5, image: "/assets/gallery/temple-tours/temple-tour-01.jpeg" },
+  { name: "Rohan Patil", trip: "Shimla Group Tour", text: "The team listened to exactly what we wanted and created a holiday that felt truly ours. Support was always just a call away.", rating: 5, image: "/assets/gallery/group-outings/group-outing-shimla.jpeg" },
 ];
 
 export const blogs = [
@@ -87,9 +87,14 @@ export const blogs = [
 ];
 
 export const galleryImages = [
-  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85", alt: "Mountain landscape" },
-  { src: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=900&q=85", alt: "Taj Mahal at sunrise" },
-  { src: "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=900&q=85", alt: "Tea gardens in India" },
-  { src: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85", alt: "Indian heritage architecture" },
-  { src: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=900&q=85", alt: "India Gate in Delhi" },
+  { src: "/assets/gallery/temple-tours/temple-tour-01.jpeg", alt: "Temple tour memories" },
+  { src: "/assets/gallery/group-outings/group-outing-01.jpeg", alt: "Happy group of travellers" },
+  { src: "/assets/gallery/malaysia-trip/malaysia-01-palace-gate.jpeg", alt: "Malaysia palace gate visit" },
+  { src: "/assets/gallery/boating/boating-01.jpeg", alt: "Boating adventure" },
+  { src: "/assets/gallery/railway-departure/departure-01.jpeg", alt: "A cheerful railway departure" },
+  { src: "/assets/gallery/malaysia-trip/malaysia-04-clocktower.jpeg", alt: "Malaysia clock tower visit" },
+  { src: "/assets/gallery/malaysia-trip/malaysia-02-merdeka-park.jpeg", alt: "Merdeka Park travel moment" },
+  { src: "/assets/gallery/temple-tours/temple-tour-02.jpeg", alt: "Temple group outing" },
+  { src: "/assets/gallery/temple-tours/temple-tour-03.jpeg", alt: "Temple tour memories" },
+  { src: "/assets/gallery/group-outings/group-outing-02.jpeg", alt: "Travel group celebration" },
 ];

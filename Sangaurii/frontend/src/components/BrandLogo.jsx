@@ -13,7 +13,7 @@ function BrandLogo({ className = "h-14 w-14", markClassName = "" }) {
 
   return (
     <img
-      src="/assets/sangaurii-logo.jpeg"
+      src="/assets/brand/sangaurii-logo.jpeg"
       alt="Sangaurii Tours and Travels logo"
       className={`${className} shrink-0 object-contain`}
       onError={() => setFailed(true)}

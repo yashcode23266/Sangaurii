@@ -7,6 +7,7 @@ import PageHero from "../components/PageHero";
 import Pagination from "../components/Pagination";
 import TourCard from "../components/TourCard";
 import TourFilters from "../components/TourFilters";
+import UpcomingTours from "../components/UpcomingTours";
 import { getTours } from "../services/tourService";
 
 const pageCopy = {
@@ -76,6 +77,7 @@ function ToursPage({ mode = "all" }) {
   return (
     <>
       <PageHero eyebrow="Plan your next journey" title={copy[0]} description={copy[1]} />
+      <UpcomingTours />
       <section className="section-pad">
         <div className="site-container">
           <div className="grid gap-8 lg:grid-cols-[270px_1fr]">
