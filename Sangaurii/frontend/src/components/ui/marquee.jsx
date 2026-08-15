@@ -7,27 +7,19 @@ export function Marquee({
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 5,
-  speed = "normal",
+  repeat = 4,
   ...props
 }) {
-  const speedVariants = {
-    slow: "[--duration:120s]",
-    normal: "[--duration:40s]",
-    fast: "[--duration:10s]",
-  };
-
   return (
     <div
       {...props}
       className={cn(
-        "group flex overflow-hidden p-1 [--gap:1rem] [gap:var(--gap)]",
-        speedVariants[speed],
+        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
         {
           "flex-row": !vertical,
           "flex-col": vertical,
         },
-        className,
+        className
       )}
     >
       {Array(repeat)
@@ -48,3 +40,5 @@ export function Marquee({
     </div>
   );
 }
+
+export default Marquee;

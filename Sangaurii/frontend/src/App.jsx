@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import SiteLayout from "./layouts/SiteLayout";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import CustomizedToursPage from "./pages/CustomizedToursPage";
 import GalleryPage from "./pages/GalleryPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -30,6 +31,7 @@ function App() {
         <Route path="/tours/domestic" element={<ToursPage mode="domestic" />} />
         <Route path="/tours/international" element={<ToursPage mode="international" />} />
         <Route path="/tours/special" element={<ToursPage mode="special" />} />
+        <Route path="/customized-tours" element={<CustomizedToursPage />} />
         <Route path="/tours/:slug" element={<TourDetailsPage />} />
         <Route path="/vehicle-rental" element={<VehicleRentalPage />} />
         {routes.map(([path, title]) => (
