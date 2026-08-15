@@ -1,11 +1,31 @@
+import React from "react";
+
 function SectionHeading({ eyebrow, title, description, align = "center", light = false }) {
   const alignment = align === "left" ? "items-start text-left" : "items-center text-center";
 
   return (
-    <div className={`flex flex-col ${alignment} mb-10`}>
-      {eyebrow && <span className={`mb-3 text-xs font-bold uppercase tracking-[0.22em] ${light ? "text-warm-yellow" : "text-golden-orange"}`}>{eyebrow}</span>}
-      <h2 className={`max-w-3xl font-display text-3xl font-bold leading-tight sm:text-4xl ${light ? "text-white" : "text-deep-navy"}`}>{title}</h2>
-      {description && <p className={`mt-4 max-w-2xl leading-7 ${light ? "text-white/75" : "text-dark-text/65"}`}>{description}</p>}
+    <div className={`flex flex-col ${alignment} mb-12`}>
+      {eyebrow && (
+        <span className={`text-xs font-bold uppercase tracking-[0.2em] mb-2.5 ${
+          light ? "text-[#F4A228]" : "text-[#184829]"
+        }`}>
+          {eyebrow}
+        </span>
+      )}
+
+      <h2 className={`max-w-3xl font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight ${
+        light ? "text-white" : "text-[#111827]"
+      }`}>
+        {title}
+      </h2>
+
+      {description && (
+        <p className={`mt-3.5 max-w-2xl text-sm sm:text-base leading-relaxed ${
+          light ? "text-slate-200" : "text-[#64748B]"
+        }`}>
+          {description}
+        </p>
+      )}
     </div>
   );
 }

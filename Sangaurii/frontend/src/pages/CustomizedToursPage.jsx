@@ -81,7 +81,7 @@ function CustomizedToursPage() {
                 <Select label="Transport preference" name="transportPreference" value={form.transportPreference} onChange={change} options={["Private car", "Tempo Traveller", "Coach", "Flights + private transfers", "Need advice"]} placeholder="Select transport" />
                 <label className="input-label sm:col-span-2">Special requirements<textarea name="specialRequirements" value={form.specialRequirements} onChange={change} rows="4" placeholder="Meals, accessibility, celebrations or anything else we should know" /></label>
                 {submitError && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700 sm:col-span-2" role="alert">{submitError}</p>}
-                <button disabled={submitting} className="button-accent sm:col-span-2">{submitting ? "Sending your request…" : "Request My Custom Itinerary"}</button>
+                <button disabled={submitting} className="button-gold sm:col-span-2 font-bold text-sm shadow-lg !py-3">{submitting ? "Sending your request…" : "Request My Custom Itinerary"}</button>
               </form>
             </>}
           </div>

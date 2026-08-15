@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { openEnquiryModal } from "../utils/enquiry";
 
 const links = [
-  ["Home", "/"], ["All Tours", "/tours"], ["Domestic Tours", "/tours/domestic"],
-  ["International Tours", "/tours/international"], ["Special Tours", "/tours/special"],
-  ["Customized Tours", "/tours/customized"], ["Vehicle Rental", "/vehicle-rental"],
-  ["About Us", "/about"], ["Gallery", "/gallery"], ["Blogs", "/blogs"], ["Contact", "/contact"],
+  ["Home", "/"],
+  ["India Tours", "/tours/domestic"],
+  ["International Tours", "/tours/international"],
+  ["Vehicle Rental", "/vehicle-rental"],
+  ["About Us", "/about"],
+  ["Guest Photos & Memories", "/gallery"],
+  ["Contact Us", "/contact"],
 ];
 
 function MobileMenu({ isOpen, onClose }) {

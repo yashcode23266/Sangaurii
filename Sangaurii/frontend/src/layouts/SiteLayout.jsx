@@ -1,17 +1,21 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import EnquiryModal from "../components/EnquiryModal";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import ScrollToTop from "../components/ScrollToTop";
-import TopBar from "../components/TopBar";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton";
+import { openEnquiryModal } from "../utils/enquiry";
 
 function SiteLayout() {
+  const handleOpenEnquiry = (title) => {
+    openEnquiryModal(title);
+  };
+
   return (
-    <div className="min-h-screen bg-off-white text-dark-text">
+    <div className="min-h-screen bg-[#FAFBFD] text-[#0F172A]">
       <ScrollToTop />
-      <TopBar />
-      <Navbar />
+      <Navbar onOpenEnquiry={handleOpenEnquiry} />
       <main>
         <Outlet />
       </main>

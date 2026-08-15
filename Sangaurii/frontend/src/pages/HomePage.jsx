@@ -1,192 +1,308 @@
-import { motion, useReducedMotion } from "framer-motion";
-import {
-  ArrowRight, Award, BadgeCheck, Bus, Globe2, Headphones, HeartHandshake,
-  Landmark, MapPinned, ShieldCheck, SlidersHorizontal, Sparkles, Star, UsersRound,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, MapPin, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import BlogCard from "../components/BlogCard";
-import DestinationCard from "../components/DestinationCard";
-import NewsletterForm from "../components/NewsletterForm";
-import SearchToursForm from "../components/SearchToursForm";
-import SectionHeading from "../components/SectionHeading";
-import TestimonialCard from "../components/TestimonialCard";
 import TourCard from "../components/TourCard";
+import SectionHeading from "../components/SectionHeading";
+import TrustStrip from "../components/TrustStrip";
 import {
-  blogs as fallbackBlogs, destinations, featuredTours as fallbackFeaturedTours,
-  galleryImages as fallbackGallery, maharashtraTours,
-  testimonials as fallbackTestimonials, tourCategories,
+  featuredTours as fallbackFeaturedTours,
 } from "../data/homeData";
-import { getPublicContent } from "../services/contentService";
 import { getFeaturedTours } from "../services/tourService";
+import { getPublicContent } from "../services/contentService";
 import { openEnquiryModal } from "../utils/enquiry";
+import TestimonialMarquee from "@/components/ui/marquee-card";
 
-const categoryIcons = { Landmark, Globe2, Sparkles, SlidersHorizontal };
+// 3 Minimal Category Cards
+const categoryTiles = [
+  {
+    title: "India Getaways",
+    subtitle: "Explore Kashmir, Kerala, Rajasthan & More",
+    path: "/tours?mode=domestic",
+    image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1000&q=85",
+  },
+  {
+    title: "International Escapes",
+    subtitle: "Discover Dubai, Bali, Thailand & Europe",
+    path: "/tours?mode=international",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=85",
+  },
+  {
+    title: "Vehicle Rental",
+    subtitle: "Luxury Cars, SUVs & Tempo Travellers",
+    path: "/vehicle-rental",
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=85",
+  },
+];
+
+// Guest Gallery Photos
+const guestPhotos = [
+  {
+    image: "https://images.unsplash.com/photo-1539635273304-0e56845d4257?auto=format&fit=crop&w=800&q=80",
+    caption: "Family Tour in Kashmir",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    caption: "Honeymoon in Maldives",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80",
+    caption: "Backwaters Cruise in Kerala",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
+    caption: "Monsoon Trip to Goa",
+  },
+];
 
 function HomePage() {
-  const reduceMotion = useReducedMotion();
   const [featuredTours, setFeaturedTours] = useState(fallbackFeaturedTours);
-  const [testimonials, setTestimonials] = useState(fallbackTestimonials);
-  const [blogs, setBlogs] = useState(fallbackBlogs);
-  const [galleryImages, setGalleryImages] = useState(fallbackGallery);
-  const reveal = reduceMotion ? {} : { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.15 }, transition: { duration: 0.55 } };
+  const [searchDestination, setSearchDestination] = useState("");
+
+  // HERO PARALLAX SETUP (Background moves 35% slower on scroll)
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const yHeroBg = useTransform(heroScroll, [0, 1], ["0%", "35%"]);
+  const opacityHero = useTransform(heroScroll, [0, 0.75], [1, 0.3]);
 
   useEffect(() => {
     let active = true;
-    Promise.all([getFeaturedTours(), getPublicContent()]).then(([tourItems, content]) => {
+    Promise.all([getFeaturedTours(), getPublicContent()]).then(([tourItems]) => {
       if (!active) return;
-      if (tourItems.length) setFeaturedTours(tourItems);
-      setTestimonials(content.testimonials);
-      setBlogs(content.blogs);
-      setGalleryImages(content.gallery);
+      if (tourItems?.length) setFeaturedTours(tourItems);
     });
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, []);
 
+  const handleEnquireNow = (destinationName = "Plan Your Dream Trip") => {
+    openEnquiryModal(destinationName);
+  };
+
   return (
-    <>
-      <section className="hero-section relative isolate min-h-[720px] overflow-hidden text-white lg:min-h-[760px]">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,35,21,.92)_0%,rgba(16,53,32,.68)_48%,rgba(16,53,32,.18)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(248,198,61,.18),transparent_25%)]" />
-        <div className="site-container relative z-10 flex min-h-[620px] items-center py-20 lg:min-h-[650px]">
-          <motion.div {...(reduceMotion ? {} : { initial: { opacity: 0, x: -30 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.7 } })} className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur"><Sparkles size={16} className="text-warm-yellow" /> Thoughtfully planned holidays</div>
-            <h1 className="font-display text-5xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">Journeys That <span className="text-warm-yellow">Stay With You</span></h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">Explore beautiful destinations across India and around the world with thoughtfully planned holidays by Sangaurii Tours and Travels.</p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/tours" className="button-accent">Explore Tours <ArrowRight size={18} /></Link>
-              <button type="button" onClick={openEnquiryModal} className="button-outline-light">Plan My Trip</button>
+    <div className="bg-[#F8FAFC]">
+      {/* 1. HERO SECTION WITH SMOOTH PARALLAX BACKGROUND */}
+      <section
+        ref={heroRef}
+        className="relative min-h-[520px] sm:min-h-[600px] lg:min-h-[82vh] text-white flex flex-col justify-between bg-[#111827]"
+      >
+        {/* Parallax Background Container */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <motion.div
+            style={{ y: yHeroBg }}
+            className="absolute inset-0 -top-[12%] -bottom-[12%] w-full h-[125%]"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2000&q=88"
+              alt="Sangaurii Travel Banner"
+              className="w-full h-full object-cover object-center opacity-80"
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-[#111827]/40 to-[#111827]" />
+          </motion.div>
+        </div>
+
+        {/* Hero Content with Scroll Fade & Entrance Motion */}
+        <div className="site-container relative z-10 pt-20 sm:pt-32 pb-16 flex-1 flex items-center justify-center">
+          <motion.div
+            style={{ opacity: opacityHero }}
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="max-w-3xl text-center mx-auto px-4"
+          >
+            <span className="text-[#F4A228] text-xs font-bold uppercase tracking-[0.2em] mb-3 block">
+              SANGAURII TOURS &amp; TRAVELS
+            </span>
+
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight max-w-3xl mx-auto drop-shadow-md">
+              Explore India, <span className="italic font-normal text-[#F4A228]">&amp; Beyond</span>
+            </h1>
+
+            <p className="mt-4 text-sm sm:text-base text-slate-200 font-sans max-w-lg mx-auto leading-relaxed">
+              Handpicked tours, trusted vehicles, and journeys you’ll never forget.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Minimal Search Capsule Bar */}
+        <div className="site-container relative z-20 max-w-[680px] -mb-6 px-4">
+          <div className="bg-white rounded-full p-2 shadow-xl border border-slate-200/90 flex items-center gap-2">
+            <div className="pl-3.5 text-[#1C4E8A]">
+              <MapPin size={18} />
             </div>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/75">
-              <span className="inline-flex items-center gap-2"><BadgeCheck className="text-warm-yellow" size={18} /> Personalized itineraries</span>
-              <span className="inline-flex items-center gap-2"><BadgeCheck className="text-warm-yellow" size={18} /> Trusted local support</span>
-              <span className="inline-flex items-center gap-2"><BadgeCheck className="text-warm-yellow" size={18} /> Family-friendly travel</span>
+            <input
+              type="text"
+              placeholder="Where do you want to travel?"
+              value={searchDestination}
+              onChange={(e) => setSearchDestination(e.target.value)}
+              className="w-full text-xs sm:text-sm font-semibold text-[#111827] outline-none bg-transparent placeholder:text-slate-400 placeholder:font-normal py-2"
+            />
+            <Link
+              to={`/tours?search=${encodeURIComponent(searchDestination)}`}
+              className="bg-[#F4A228] text-[#111827] px-5 py-3 rounded-full shrink-0 flex items-center justify-center font-extrabold text-xs shadow-sm hover:bg-[#E5931C] transition-all gap-1.5"
+              aria-label="Search"
+            >
+              <Search size={14} />
+              <span>Search</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. STATS STRIP (CLEAN TYPOGRAPHY, NO ICONS, NO BACKGROUND FILL) */}
+      <TrustStrip />
+
+      {/* 3. CATEGORIES SHOWCASE (3 CLEAN IMAGE CARDS, HARELINE BORDER, TEXT BELOW) */}
+      <section className="py-20 sm:py-28 bg-[#F8FAFC]">
+        <div className="site-container">
+          <SectionHeading
+            eyebrow="DESTINATION CATEGORIES"
+            title="Find Your Ideal Journey"
+            description="Whether you crave mountain valleys, tropical beaches, or private road transport."
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-12 mt-14">
+            {categoryTiles.map((tile, idx) => (
+              <motion.div
+                key={tile.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <Link
+                  to={tile.path}
+                  className="group block bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm transition-all duration-300 hover:border-slate-300 hover:-translate-y-1"
+                >
+                  <div className="h-56 overflow-hidden bg-slate-100">
+                    <img
+                      src={tile.image}
+                      alt={tile.title}
+                      className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-serif text-xl font-bold text-[#111827] group-hover:text-[#1C4E8A] transition-colors inline-block">
+                      {tile.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-1 font-medium">
+                      {tile.subtitle}
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. TRENDING PACKAGES (MINIMAL CLEAN GRID WITH SCROLL FADE) */}
+      <section className="py-20 sm:py-28 bg-white border-y border-slate-100">
+        <div className="site-container">
+          <SectionHeading
+            eyebrow="FEATURED PACKAGES"
+            title="Trending Tour Destinations"
+            description="Thoughtfully planned itineraries with guaranteed comfortable travel and transparent pricing."
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 mt-14">
+            {featuredTours.map((tour, idx) => (
+              <motion.div
+                key={tour.slug || tour.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+              >
+                <TourCard
+                  tour={tour}
+                  onEnquire={(title) => handleEnquireNow(title)}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. GUEST PHOTO GALLERY & MARQUEE TESTIMONIALS */}
+      <section className="pt-16 sm:pt-28 pb-3 sm:pb-6 bg-[#F8FAFC]">
+        <div className="site-container">
+          <SectionHeading
+            eyebrow="HAPPY TRAVELERS"
+            title="Real Memories Shared By Our Guests"
+            description="Moments captured on tour across India and international destinations."
+          />
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-10 mb-8 sm:mb-10">
+            {guestPhotos.map((photo, idx) => (
+              <motion.div
+                key={photo.caption}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group relative h-60 overflow-hidden rounded-2xl bg-slate-900 shadow-sm"
+              >
+                <img
+                  src={photo.image}
+                  alt={photo.caption}
+                  className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/75 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <p className="text-xs font-bold">{photo.caption}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Liquid Glass Marquee Testimonial Cards - Perfectly 50/50 Centered */}
+          <div className="mt-6 mb-4 sm:mt-10 sm:mb-8">
+            <TestimonialMarquee />
+          </div>
+        </div>
+      </section>
+
+      {/* 6. FLOATING CTA BANNER CARD (BALANCED SPACING BEFORE FOOTER) */}
+      <section className="pt-4 sm:pt-8 pb-16 sm:pb-24 bg-[#F8FAFC]">
+        <div className="site-container">
+          <div className="bg-[#1C4E8A] rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+            {/* Soft Ambient Glow Overlay */}
+            <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="max-w-2xl relative z-10 text-center md:text-left">
+              <span className="text-[#F4A228] text-xs font-extrabold uppercase tracking-[0.2em] mb-2 block">
+                SANGAURII CONCIERGE CARE
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+                Ready to Plan Your Next Journey?
+              </h2>
+              <p className="text-slate-200 text-sm sm:text-base mt-2 font-medium">
+                Contact our travel experts for customized holiday itineraries, spiritual yatras, and private luxury vehicle rentals.
+              </p>
             </div>
-          </motion.div>
-        </div>
-        <div className="site-container relative z-20 -mb-20"><SearchToursForm /></div>
-      </section>
 
-      <section className="section-pad pt-32">
-        <div className="site-container">
-          <SectionHeading eyebrow="Find your kind of holiday" title="Travel experiences for every dream" description="From easy family escapes to deeply personal journeys, choose a travel style that feels right for you." />
-          <motion.div {...reveal} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {tourCategories.map((category) => {
-              const Icon = categoryIcons[category.icon];
-              return <Link key={category.title} to={category.path} className="group rounded-3xl border border-black/5 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <span className={`grid h-13 w-13 place-items-center rounded-2xl text-white ${category.color}`}><Icon size={24} /></span>
-                <h3 className="mt-5 font-display text-xl font-bold text-deep-navy">{category.title}</h3><p className="mt-2 text-sm leading-6 text-dark-text/60">{category.subtitle}</p>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-forest-green">Explore <ArrowRight size={15} className="transition group-hover:translate-x-1" /></span>
-              </Link>;
-            })}
-          </motion.div>
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              type="button"
+              onClick={() => handleEnquireNow("Custom Holiday Plan")}
+              className="bg-[#F4A228] text-[#111827] hover:bg-[#E5931C] font-extrabold text-xs sm:text-sm px-8 py-3.5 rounded-full transition-all shrink-0 inline-flex items-center gap-2 shadow-lg relative z-10"
+            >
+              <span>Plan Your Trip Now</span>
+              <ArrowRight size={16} />
+            </motion.button>
+          </div>
         </div>
       </section>
-
-      <section className="section-pad bg-white">
-        <div className="site-container">
-          <SectionHeading eyebrow="Guest favourites" title="Featured tour packages" description="Curated journeys that bring together iconic sights, comfortable stays and the right amount of time to enjoy each place." />
-          <motion.div {...reveal} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{featuredTours.slice(0, 3).map((tour) => <TourCard key={tour.slug} tour={tour} />)}</motion.div>
-          <div className="mt-10 text-center"><Link to="/tours" className="button-secondary">View All Tours <ArrowRight size={17} /></Link></div>
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="site-container">
-          <SectionHeading eyebrow="Across incredible India" title="Popular Indian destinations" description="Mountains, beaches, culture and quiet corners—there is always another side of India waiting to be explored." />
-          <motion.div {...reveal} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {destinations.map((destination, index) => <div key={destination.name} className={index < 2 ? "lg:col-span-2" : ""}><DestinationCard destination={destination} large={index < 2} /></div>)}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="section-pad bg-[#edf4ef]">
-        <div className="site-container">
-          <SectionHeading eyebrow="Closer to home" title="Maharashtra special tours" description="Coastal roads, ancient caves, sacred temples and scenic hill stations—rediscover the beauty in our own backyard." />
-          <motion.div {...reveal} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{maharashtraTours.map((tour) => <TourCard key={tour.slug} tour={tour} />)}</motion.div>
-        </div>
-      </section>
-
-      <section className="section-pad overflow-hidden bg-white">
-        <div className="site-container grid items-center gap-12 lg:grid-cols-2">
-          <motion.div {...reveal} className="relative">
-            <div className="overflow-hidden rounded-[2rem]"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1100&q=85" alt="Family enjoying a holiday together" className="min-h-[430px] w-full object-cover" /></div>
-            <div className="absolute -bottom-6 right-4 rounded-2xl bg-golden-orange p-5 text-deep-navy shadow-xl sm:right-[-24px]"><strong className="block font-display text-3xl">Made with care</strong><span className="text-sm font-semibold">From first call to homecoming</span></div>
-          </motion.div>
-          <motion.div {...reveal}>
-            <SectionHeading align="left" eyebrow="About Sangaurii" title="Travel planning that feels personal" description="At Sangaurii Tours and Travels, we believe a great holiday begins by listening. We understand who you are travelling with, what matters to you and how you want the journey to feel." />
-            <p className="-mt-5 leading-7 text-dark-text/65">Our team brings destinations, stays, transport and local experiences together into a smooth itinerary—with friendly support before, during and after your trip.</p>
-            <div className="mt-7 grid gap-4 sm:grid-cols-2">
-              <span className="inline-flex items-center gap-3 font-semibold text-deep-navy"><HeartHandshake className="text-golden-orange" /> Warm, personal service</span>
-              <span className="inline-flex items-center gap-3 font-semibold text-deep-navy"><MapPinned className="text-golden-orange" /> Carefully planned routes</span>
-            </div>
-            <Link to="/about" className="button-primary mt-8">Our Story <ArrowRight size={17} /></Link>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="section-pad bg-deep-navy">
-        <div className="site-container">
-          <SectionHeading light eyebrow="Why travel with us" title="Comfort in every part of your journey" description="Reliable planning and genuine care so you can spend less time coordinating and more time making memories." />
-          <motion.div {...reveal} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              [ShieldCheck, "Trusted Planning", "Clear itineraries and reliable partners selected with care."],
-              [UsersRound, "Family First", "Comfortable pacing for children, parents and senior travellers."],
-              [Headphones, "Travel Support", "A helpful team within reach throughout your holiday."],
-              [Award, "Local Expertise", "Practical recommendations shaped by destination knowledge."],
-            ].map(([Icon, title, text]) => <div key={title} className="rounded-3xl border border-white/10 bg-white/5 p-6 text-white"><Icon className="text-warm-yellow" size={30} /><h3 className="mt-5 font-display text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-white/65">{text}</p></div>)}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="bg-golden-orange py-10">
-        <div className="site-container grid grid-cols-2 gap-7 text-center text-deep-navy lg:grid-cols-4">
-          {[[MapPinned, "50+", "Destinations"], [UsersRound, "1,200+", "Happy Travellers"], [Bus, "150+", "Tours Planned"], [Star, "4.9/5", "Guest Rating"]].map(([Icon, number, label]) => <div key={label}><Icon className="mx-auto mb-2" size={26} /><strong className="block font-display text-3xl font-bold sm:text-4xl">{number}</strong><span className="mt-1 block text-sm font-semibold">{label}</span></div>)}
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="site-container">
-          <motion.div {...reveal} className="relative overflow-hidden rounded-[2rem] bg-forest-green px-6 py-14 text-white sm:px-10 lg:px-16">
-            <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-warm-yellow/15" />
-            <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_auto]">
-              <div><span className="text-xs font-bold uppercase tracking-[0.2em] text-warm-yellow">Made just for you</span><h2 className="mt-3 max-w-2xl font-display text-3xl font-bold sm:text-4xl">Have a destination in mind? Let’s shape the perfect trip.</h2><p className="mt-4 max-w-2xl text-white/70">Share your dates, interests and travel style. We’ll create a thoughtful itinerary around you.</p></div>
-              <button type="button" onClick={openEnquiryModal} className="button-accent whitespace-nowrap">Start My Enquiry <ArrowRight size={18} /></button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="section-pad bg-white">
-        <div className="site-container">
-          <SectionHeading eyebrow="Traveller stories" title="Memories shared by our guests" description="The kind words that inspire us to make every journey even more thoughtful." />
-          <motion.div {...reveal} className="grid gap-6 md:grid-cols-3">{testimonials.slice(0, 3).map((testimonial) => <TestimonialCard key={testimonial.name} testimonial={testimonial} />)}</motion.div>
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="site-container">
-          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><SectionHeading align="left" eyebrow="Travel moments" title="A glimpse from the road" description="Landscapes, landmarks and little moments that make every journey special." /><Link to="/gallery" className="button-secondary mb-10 shrink-0">View Gallery <ArrowRight size={16} /></Link></div>
-          <motion.div {...reveal} className="grid auto-rows-[180px] grid-cols-2 gap-3 md:grid-cols-4">
-            {galleryImages.slice(0, 5).map((image, index) => <div key={image.src} className={`overflow-hidden rounded-2xl ${index === 0 ? "col-span-2 row-span-2" : index === 3 ? "md:col-span-2" : ""}`}><img src={image.src} alt={image.alt} className="h-full w-full object-cover transition duration-700 hover:scale-105" /></div>)}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="section-pad bg-[#edf4ef]">
-        <div className="site-container">
-          <SectionHeading eyebrow="From our travel desk" title="Ideas and guides for better holidays" description="Useful tips, destination inspiration and simple planning advice for your next journey." />
-          <motion.div {...reveal} className="grid gap-6 md:grid-cols-3">{blogs.slice(0, 3).map((post) => <BlogCard key={post.slug} post={post} />)}</motion.div>
-        </div>
-      </section>
-
-      <section className="bg-deep-navy py-14 text-white">
-        <div className="site-container grid items-center gap-8 lg:grid-cols-[1fr_1fr]">
-          <div><span className="text-xs font-bold uppercase tracking-[0.2em] text-warm-yellow">Travel inspiration, delivered</span><h2 className="mt-3 font-display text-3xl font-bold">Stay close to your next adventure</h2><p className="mt-3 text-white/65">Receive destination ideas, seasonal tours and useful travel tips.</p></div>
-          <NewsletterForm />
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
 
