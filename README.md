@@ -1,7 +1,7 @@
 # Sangaurii Tours & Travels
 
 Official web application for **Sangaurii Tours & Travels** (Pune, Maharashtra).  
-*Your Trusted Travel Partner for Over a Decade | Travel with Trust. Travel with Joy.*
+*Your Trusted Travel Partner for Over a Decade | Travel with Trust. Travel with      Joy.*
 
 ---
 
