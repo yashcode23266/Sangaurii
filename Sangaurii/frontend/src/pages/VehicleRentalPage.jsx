@@ -82,13 +82,14 @@ function VehicleRentalPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: idx * 0.08 }}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:border-slate-300 transition-all"
+                whileHover={{ y: -6 }}
+                className="group flex flex-col justify-between overflow-hidden rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:shadow-slate-200/60 hover:border-slate-300 transition-all duration-300 shine-overlay"
               >
                 <div className="relative h-48 overflow-hidden bg-slate-100">
                   <img
                     src={v.image}
                     alt={v.name}
-                    className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-108"
                     loading="lazy"
                   />
                   <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-[0.68rem] font-bold text-[#184829] shadow-xs">
@@ -98,7 +99,7 @@ function VehicleRentalPage() {
 
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    <h3 className="font-serif text-lg font-bold text-[#111827]">
+                    <h3 className="font-serif text-lg font-bold text-[#111827] group-hover:text-[#1C4E8A] transition-colors">
                       {v.name}
                     </h3>
                     <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold mt-1">
@@ -115,13 +116,15 @@ function VehicleRentalPage() {
                     </div>
                   </div>
 
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.02 }}
                     type="button"
                     onClick={() => handleSelectVehicle(v.name)}
-                    className="w-full bg-[#F4A228] text-[#111827] hover:bg-[#E5931C] font-extrabold text-xs py-2.5 rounded-full transition-all duration-200 shadow-sm"
+                    className="w-full bg-[#F4A228] text-[#111827] hover:bg-[#E5931C] font-extrabold text-xs py-2.5 rounded-full transition-all duration-200 shadow-sm cursor-pointer"
                   >
                     Get Quote
-                  </button>
+                  </motion.button>
                 </div>
               </motion.article>
             ))}

@@ -211,7 +211,8 @@ function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: idx * 0.08 }}
-                  className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col justify-between"
+                  whileHover={{ y: -6 }}
+                  className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:shadow-slate-200/60 hover:border-slate-300 transition-all duration-300 flex flex-col justify-between shine-overlay"
                 >
                   <div>
                     <div className="w-12 h-12 rounded-2xl bg-[#1C4E8A]/10 text-[#1C4E8A] flex items-center justify-center mb-5">
@@ -250,7 +251,8 @@ function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: idx * 0.08 }}
-                  className="flex gap-5 p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs"
+                  whileHover={{ y: -4 }}
+                  className="flex gap-5 p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs hover:shadow-md hover:border-slate-300 transition-all duration-300"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-[#184829]/10 text-[#184829] flex items-center justify-center shrink-0">
                     <IconComp size={24} />
@@ -289,7 +291,8 @@ function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: idx * 0.08 }}
-                  className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm flex flex-col justify-between group"
+                  whileHover={{ y: -6 }}
+                  className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:shadow-slate-200/60 hover:border-slate-300 transition-all duration-300 flex flex-col justify-between group shine-overlay"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -312,7 +315,7 @@ function AboutPage() {
                   <button
                     type="button"
                     onClick={() => openEnquiryModal(service.title)}
-                    className="text-xs font-bold text-[#1C4E8A] hover:text-[#184829] flex items-center gap-1.5 pt-4 border-t border-slate-100 transition-colors mt-6"
+                    className="text-xs font-bold text-[#1C4E8A] hover:text-[#184829] flex items-center gap-1.5 pt-4 border-t border-slate-100 transition-colors mt-6 cursor-pointer"
                   >
                     <span>Enquire For This Service</span>
                     <ArrowRight size={14} />

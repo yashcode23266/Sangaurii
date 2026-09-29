@@ -13,7 +13,7 @@ function SiteLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFBFD] text-[#0F172A]">
+    <div className="min-h-screen bg-transparent text-[#0F172A] relative">
       <ScrollToTop />
       <Navbar onOpenEnquiry={handleOpenEnquiry} />
       <main>

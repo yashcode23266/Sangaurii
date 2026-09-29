@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, MessageSquare, Instagram, Facebook, Youtube } from "lucide-react";
 import { contactDetails } from "../data/homeData";
 import { submitGeneralEnquiry } from "../services/tourService";
@@ -24,9 +25,14 @@ function ContactPage() {
 
   return (
     <div className="bg-[#F8FAFC]">
-      {/* 1. QUIET TEXT INTRO (NO HERO IMAGE NEEDED) */}
+      {/* 1. QUIET TEXT INTRO */}
       <section className="pt-20 pb-12 sm:pt-28 sm:pb-16 bg-[#F8FAFC]">
-        <div className="site-container max-w-3xl text-center mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="site-container max-w-3xl text-center mx-auto px-4"
+        >
           <span className="text-[#184829] text-xs font-bold uppercase tracking-[0.25em] mb-3 block">
             GET IN TOUCH
           </span>
@@ -36,7 +42,7 @@ function ContactPage() {
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
             Speak directly with our tour coordinators for personalized holiday packages, spiritual yatras, and private vehicle rentals.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* 2. TWO-COLUMN LAYOUT: FORM ON LEFT, DETAILS & MAP ON RIGHT */}
@@ -44,7 +50,12 @@ function ContactPage() {
         <div className="site-container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left Column — Enquiry Form */}
-            <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="lg:col-span-7"
+            >
               <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-sm">
                 <span className="text-[#1C4E8A] text-xs font-bold uppercase tracking-[0.2em] block mb-2">
                   DIRECT INQUIRY
@@ -176,10 +187,15 @@ function ContactPage() {
                   </form>
                 )}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Column — Contact Details & Map */}
-            <div className="lg:col-span-5 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="lg:col-span-5 space-y-6"
+            >
               <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm space-y-6">
                 <span className="text-[#184829] text-xs font-bold uppercase tracking-[0.2em] block">
                   CONTACT DETAILS
@@ -293,7 +309,7 @@ function ContactPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

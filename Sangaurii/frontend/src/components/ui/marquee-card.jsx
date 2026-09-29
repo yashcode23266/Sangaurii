@@ -37,7 +37,7 @@ const reviews = [
 
 export function TestimonialMarquee() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-4">
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-1">
       <Marquee pauseOnHover className="[--duration:35s]">
         {reviews.map((review) => (
           <div
